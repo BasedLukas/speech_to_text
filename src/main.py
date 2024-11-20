@@ -9,7 +9,15 @@ import sys
 import logging
 from typing import List, Optional, Tuple, Dict, Any
 
-from config import DEVICE_NAME, SAMPLERATE, CHANNELS, COMBINATIONS, LOG_LEVEL
+from utils import create_icon, get_tray_icon
+from config import (
+    DEVICE_NAME, 
+    SAMPLERATE, 
+    CHANNELS, 
+    COMBINATIONS, 
+    LOG_LEVEL, 
+    MODEL_NAME,
+)
 
 
 def list_input_devices() -> List[Dict[str, Any]]:
@@ -109,12 +117,14 @@ def on_press(key: keyboard.Key) -> None:
     global is_recording, stream, audio_data
     current_keys.add(key)  # Add key to current_keys
     # Check if any combination is fully pressed
-    if any(combo.issubset(current_keys) for combo in COMBINATIONS):  
+    if any(combo.issubset(current_keys) for combo in COMBINATIONS):
         if not is_recording:
             with lock:
                 is_recording = True
                 audio_data = []
                 logger.info("Recording started.")
+                tray_icon.icon = create_icon("red")  # Update tray icon to red
+                tray_icon.title = "Recording"  # Update tray title
                 try:
                     stream = sd.InputStream(
                         samplerate=SAMPLERATE,
@@ -133,10 +143,12 @@ def on_release(key: keyboard.Key) -> None:
     global is_recording, stream
     current_keys.discard(key)  # Remove key from current_keys
     # Check if all keys in any combination have been released
-    if not any(combo.issubset(current_keys) for combo in COMBINATIONS):  
+    if not any(combo.issubset(current_keys) for combo in COMBINATIONS):
         if is_recording:
             with lock:
                 is_recording = False
+                tray_icon.icon = create_icon("gray")  # Update tray icon to gray
+                tray_icon.title = "Not Recording"  # Update tray title
                 try:
                     stream.stop()
                     stream.close()
@@ -159,6 +171,7 @@ if __name__ == "__main__":
     stream: Optional[sd.InputStream] = None
     lock = threading.Lock()
     keyboard_controller = Controller()
+    tray_icon = get_tray_icon()  # Initialize the tray icon
     logging.basicConfig(
         level=LOG_LEVEL,
         format="[%(levelname)s] %(name)s: %(message)s",
@@ -173,7 +186,8 @@ if __name__ == "__main__":
         sys.exit(1)
 
     try:
-        model = whisper.load_model("base")
+        logger.info("Loading whisper model. This may take time to download...")
+        model = whisper.load_model(MODEL_NAME)
         logger.info("Whisper model loaded successfully.")
     except Exception as e:
         logger.error(f"Failed to load Whisper model: {e}")
@@ -183,7 +197,9 @@ if __name__ == "__main__":
         start_listener()
     except KeyboardInterrupt:
         logger.info("Service terminated by user.")
+        tray_icon.stop()  # Stop the tray icon on exit
         sys.exit(0)
     except Exception as e:
         logger.error(f"Unexpected error: {e}")
+        tray_icon.stop()  # Stop the tray icon on exit
         sys.exit(1)

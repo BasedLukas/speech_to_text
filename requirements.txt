@@ -1,3 +1,5 @@
 openai-whisper
 sounddevice
 pynput
+pystray
+pillow

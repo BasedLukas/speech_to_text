@@ -1,6 +1,8 @@
 from pynput import keyboard
 
-model_name = 'base'  # Whisper model to use (e.g., base, small, medium, large)
+
+# 'tiny.en', 'tiny', 'base.en', 'base', 'small.en', 'small', 'medium.en', 'medium', 'large-v1', 'large-v2', 'large-v3', 'large', 'large-v3-turbo', 'turbo'
+MODEL_NAME = 'small.en' 
 audio_device = 'default' #  ; Name of the audio device or 'default'
 COMBINATIONS = [
     {keyboard.Key.ctrl, keyboard.Key.f1},  # Left Ctrl + F1

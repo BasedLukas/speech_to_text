@@ -4,7 +4,7 @@ After=default.target
 
 [Service]
 Type=simple
-ExecStart=%CWD%/venv/bin/python3 %CWD%/main.py
+ExecStart=%CWD%/venv/bin/python3 %CWD%/src/main.py
 WorkingDirectory=%CWD%
 Restart=on-failure
 RestartSec=5
