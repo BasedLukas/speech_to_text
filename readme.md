@@ -1,7 +1,6 @@
-**This project creates a speech to text system designed for Linux / systemd. It is based on the OpenAI whisper model.**
+**This project creates a speech to text system designed for Linux / systemd. It is based on the [OpenAI whisper model](https://github.com/openai/whisper).**
 
 #### 1. Clone the Repository
-Clone the repository to your desired directory:
 
 ```bash
 git clone https://github.com/BasedLukas/speech_to_text.git
@@ -9,9 +8,9 @@ cd speech_to_text
 ```
 
 #### 2. Create and Set Up the Virtual Environment
-The service requires a Python virtual environment named `venv`.
 
 ```bash
+# it must be named `venv`.
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
