@@ -1,5 +1,4 @@
-This project creates a speech to text system designed for Linux systemd systems.
-It is based on the OpenAI whisper model.
+**This project creates a speech to text system designed for Linux / systemd. It is based on the OpenAI whisper model.**
 
 #### 1. Clone the Repository
 Clone the repository to your desired directory:
@@ -27,13 +26,10 @@ chmod +x install.sh
 
 The script performs the following:
 
-Ensures your venv is setup correctly, and all the packages have been installed. 
-
-Sets up the whisper.service file with the current working directory.
-
-Copies the modified service file to `~/.config/systemd/user/`.
-
-Reloads systemd and enables the service.
+- Ensures your venv is setup correctly, and all the packages have been installed. 
+- Sets up the whisper.service file with the current working directory.
+- Copies the modified service file to `~/.config/systemd/user/`.
+- Reloads systemd and enables the service.
 
 
 #### 4. Start the Service
