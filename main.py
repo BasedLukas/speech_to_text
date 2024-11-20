@@ -18,14 +18,34 @@ keyboard_controller = Controller()
 
 # Configure logging to display INFO level messages
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,  # Changed from INFO to DEBUG
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
     handlers=[
         logging.StreamHandler(sys.stdout)
     ]
 )
 
+
 logger = logging.getLogger("WhisperService")
+
+
+# Specify the audio input device by name
+DEVICE_NAME = "Razer Kiyo X: USB Audio"
+
+def get_device_index_by_name(device_name):
+    return 7
+    # devices = sd.query_devices()
+    # for idx, device in enumerate(devices):
+        # print("idx,device", idx, device)
+        # if device['name'] == device_name:
+            # return idx
+    # raise ValueError(f"Device '{device_name}' not found.")
+try:
+    INPUT_DEVICE_INDEX = get_device_index_by_name(DEVICE_NAME)
+    logger.info(f"Selected audio input device '{DEVICE_NAME}' with index {INPUT_DEVICE_INDEX}.")
+except ValueError as e:
+    logger.error(e)
+    sys.exit(1)
 
 
 # Initialize the Whisper model
@@ -56,6 +76,11 @@ def audio_callback(indata, frames, time_info, status):
     if status:
         logger.error(f"Recording error: {status}")
     audio_data.append(indata.copy())
+    
+    # Log audio data statistics
+    volume_norm = np.linalg.norm(indata) * 10
+    logger.debug(f"Audio Volume: {volume_norm}")
+
 
 def transcribe_and_insert(audio):
     global audio_data
@@ -105,14 +130,18 @@ def on_press(key):
                     is_recording = True
                     audio_data = []
                     logger.info("Recording started.")
-                    # notify("Whisper Service: Recording started.")
                     try:
-                        # Start the audio stream
-                        stream = sd.InputStream(samplerate=SAMPLERATE, channels=CHANNELS, callback=audio_callback)
+                        # Start the audio stream with specified device
+                        stream = sd.InputStream(
+                            samplerate=SAMPLERATE,
+                            channels=CHANNELS,
+                            callback=audio_callback,
+                            device=INPUT_DEVICE_INDEX
+                        )
                         stream.start()
+                        logger.info("Audio stream started.")
                     except Exception as e:
                         logger.error(f"Error starting audio stream: {e}")
-                        # notify("Whisper Service: Failed to start recording.")
                         is_recording = False
 
 def on_release(key):

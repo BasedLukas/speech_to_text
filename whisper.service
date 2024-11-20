@@ -1,16 +1,16 @@
 [Unit]
 Description=Whisper Transcription Service
-After=multi-user.target
+After=default.target
 
 [Service]
 Type=simple
-User=lukas
-Environment=DISPLAY=:1
-Environment=XAUTHORITY=/run/user/1000/gdm/Xauthority
 ExecStart=/home/lukas/coding/speech_to_text/venv/bin/python /home/lukas/coding/speech_to_text/main.py
 WorkingDirectory=/home/lukas/coding/speech_to_text
 Restart=on-failure
 RestartSec=5
+Environment=DISPLAY=:1
+Environment=XAUTHORITY=/run/user/1000/gdm/Xauthority
+# Add any other necessary environment variables here
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
