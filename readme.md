@@ -19,7 +19,6 @@ pip install -r requirements.txt
 ```
 
 #### 3. Run the Install Script
-The install.sh script configures the service and ensures it dynamically uses the current working directory.
 
 ```bash
 chmod +x install.sh
@@ -27,6 +26,7 @@ chmod +x install.sh
 ```
 
 The script performs the following:
+Ensures your venv is setup correctly, and all the packages have been installed. 
 Sets up the whisper.service file with the current working directory.
 Copies the modified service file to `~/.config/systemd/user/`.
 Reloads systemd and enables the service.
@@ -50,16 +50,11 @@ systemctl --user stop whisper.service
 #### 5. Usage
 - default keybinding is `ctrl + F1`
 
-- Hold to record
+- Hold to record (note icon in system tray)
 
 - Text will be inserted at cursor location
 
 
 
 #### 6. Known Bugs / TODO
-- allow user to select different models
-- doesnt work in terminal
-- text overides copy buffer
 - very long recordings break system
-- no indication for user that system is recording or not
-- need a config file for microphone choice, keybindings etc
