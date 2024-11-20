@@ -14,14 +14,11 @@ cd speech_to_text
 The service requires a Python virtual environment named venv. Follow these steps to create and activate it:
 
 Create the Virtual Environment:
-`python3 -m venv venv`
-
-Activate the Virtual Environment:
-`source venv/bin/activate`
-
-Install Dependencies:
-With the virtual environment activated, install the required Python dependencies:
-`pip install -r requirements.txt`
+```
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
 ### 3. Run the Install Script
 The install.sh script configures the service and ensures it dynamically uses the current working directory.
@@ -39,24 +36,33 @@ Reloads systemd and enables the service.
 
 ### 4. Start the Service
 Once the service is installed, you can start it with the following command:
+
 `systemctl --user start whisper.service`
 
 Check Service Status:
 To see if the service is running properly:
+
 `systemctl --user status whisper.service`
 
 View Logs:
+
 To monitor the service logs in real time:
+
 `journalctl --user -u whisper.service -f`
 
 Stop the Service
+
 To stop the service if needed:
+
 `systemctl --user stop whisper.service`
 
 ### 5. Usage
 default keybinding is ctrl + F1
+
 Hold to record
+
 Text will be inserted at cursor location
+
 
 
 ### 6. Known Bugs / TODO
