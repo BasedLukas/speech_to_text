@@ -3,35 +3,12 @@ import numpy as np
 import whisper
 from pynput import keyboard
 from pynput.keyboard import Controller, Key, KeyCode
+
 import threading
-import pyperclip
-import time
 import sys
 import logging
 
-### CONFIGS ###
-# Hotkey combination: Ctrl + F1
-COMBINATION = {keyboard.Key.ctrl, keyboard.Key.f1}
-DEVICE_NAME = None # Specify the audio input device by name
-SAMPLERATE = 16000  # Whisper uses 16000 Hz
-CHANNELS = 1
-LOG_LEVEL = logging.INFO
-
-### OBJECTS ###
-current_keys = set()
-is_recording = False
-audio_data = []
-stream = None
-lock = threading.Lock()
-keyboard_controller = Controller()
-logging.basicConfig(
-    level=LOG_LEVEL,
-    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-    handlers=[
-        logging.StreamHandler(sys.stdout)
-    ]
-)
-logger = logging.getLogger("whisper.service")
+from config import *
 
 
 def list_input_devices():
@@ -121,17 +98,9 @@ def transcribe_and_insert(audio):
 
 def insert_text(text):
     try:
-        # Copy text to clipboard
-        pyperclip.copy(text)
-        time.sleep(0.1)  # Small delay to ensure clipboard is updated
-
-        # Simulate Ctrl + V to paste
-        with keyboard_controller.pressed(Key.ctrl):
-            keyboard_controller.press('v')
-            keyboard_controller.release('v')
-
+        for char in text:
+            keyboard_controller.type(char)
         logger.info("Transcribed text inserted successfully.")
-        # notify("Whisper Service: Text inserted.")
     except Exception as e:
         logger.error(f"Error inserting text: {e}")
 
@@ -189,6 +158,22 @@ def start_listener():
 
 
 if __name__ == "__main__":
+
+    ### OBJECTS ###
+    current_keys = set()
+    is_recording = False
+    audio_data = []
+    stream = None
+    lock = threading.Lock()
+    keyboard_controller = Controller()
+    logging.basicConfig(
+        level=LOG_LEVEL,
+        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        handlers=[
+            logging.StreamHandler(sys.stdout)
+        ]
+    )
+    logger = logging.getLogger("whisper.service")
 
     # init audio device
     try:
