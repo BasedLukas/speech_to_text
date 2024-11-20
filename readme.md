@@ -1,6 +1,5 @@
-Deploying the Whisper Transcription Service
-
-This documentation outlines the steps required to set up and run the Whisper Transcription Service after cloning the repository. It assumes the use of a virtual environment named venv.
+This project creates a speech to text system designed for Linux systemd systems.
+It is based on the OpenAI whisper model.
 
 #### 1. Clone the Repository
 Clone the repository to your desired directory:
@@ -58,6 +57,7 @@ systemctl --user stop whisper.service
 
 
 #### 6. Known Bugs / TODO
+- allow user to select different models
 - doesnt work in terminal
 - text overides copy buffer
 - very long recordings break system
