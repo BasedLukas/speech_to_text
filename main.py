@@ -73,7 +73,6 @@ def insert_text(text: str) -> None:
 
 
 def on_press(key: keyboard.Key) -> None:
-    logger.info(f"keypress:{key}")
     global is_recording, stream, audio_data
     current_keys.add(key)  # Add key to current_keys
 
@@ -108,7 +107,7 @@ def on_release(key: keyboard.Key) -> None:
         if is_recording:
             with lock:
                 is_recording = False
-                tray_icon.icon = create_icon("blue")  # Update tray icon to blue
+                tray_icon.icon = create_icon("green")  # Update tray icon to green
                 tray_icon.title = "Not Recording"  # Update tray title
                 try:
                     stream.stop()

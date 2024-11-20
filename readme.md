@@ -26,10 +26,15 @@ chmod +x install.sh
 ```
 
 The script performs the following:
+
 Ensures your venv is setup correctly, and all the packages have been installed. 
+
 Sets up the whisper.service file with the current working directory.
+
 Copies the modified service file to `~/.config/systemd/user/`.
+
 Reloads systemd and enables the service.
+
 
 #### 4. Start the Service
 
@@ -48,7 +53,7 @@ systemctl --user stop whisper.service
 ```
 
 #### 5. Usage
-- default keybinding is `ctrl + F1`
+- Default keybinding is `ctrl + F1`
 
 - Hold to record (note icon in system tray)
 

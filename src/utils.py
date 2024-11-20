@@ -45,7 +45,7 @@ def create_icon(color: str) -> Image.Image:
 def get_tray_icon():
     """Create and return a tray icon instance."""
     recording_icon = create_icon("red")
-    not_recording_icon = create_icon("blue")
+    not_recording_icon = create_icon("green")
 
     icon = Icon("RecordingIndicator", not_recording_icon, "Not Recording")
 
