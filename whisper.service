@@ -4,12 +4,11 @@ After=default.target
 
 [Service]
 Type=simple
-ExecStart=/home/lukas/coding/speech_to_text/venv/bin/python /home/lukas/coding/speech_to_text/main.py
-WorkingDirectory=/home/lukas/coding/speech_to_text
+ExecStart=%EXEC_START%
+WorkingDirectory=%WORKING_DIR%
 Restart=on-failure
 RestartSec=5
-Environment=DISPLAY=:1
-Environment=XAUTHORITY=/run/user/1000/gdm/Xauthority
+EnvironmentFile=%ENV_FILE%
 # Add any other necessary environment variables here
 
 [Install]
