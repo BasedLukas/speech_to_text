@@ -33,7 +33,7 @@ sed "s|%CWD%|$CWD|g" "$SOURCE_SERVICE" > "$TARGET_SERVICE"
 # start everythin
 systemctl --user daemon-reload
 systemctl --user enable whisper.service
-systemctl --user start whisper.service
+systemctl --user restart whisper.service
 
 
 echo "Service installed and enabled. Use 'journalctl --user -u whisper.service -f' to view logs"

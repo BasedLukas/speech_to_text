@@ -6,8 +6,12 @@ After=default.target
 Type=simple
 ExecStart=%CWD%/venv/bin/python3 %CWD%/main.py
 WorkingDirectory=%CWD%
-Restart=on-failure
-RestartSec=5
+Restart=always               # Always restart the service on failure
+RestartSec=10                # Wait 10 seconds before restarting
+StartLimitInterval=600       # 10 minutes: Time window for StartLimitBurst
+StartLimitBurst=5            # Allow 5 restart attempts in the interval
+TimeoutStartSec=30           # Wait 30 seconds for the service to start
+TimeoutStopSec=10            # Wait 10 seconds for the service to stop gracefully
 
 [Install]
 WantedBy=default.target
