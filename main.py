@@ -7,7 +7,7 @@ from src.main import WhisperService
 
 
 if __name__ == "__main__":
-    if not test_requirements or not test_whisper():
+    if not test_requirements() or not test_whisper():
         sys.exit(1)
     try:
         whisper_service = WhisperService()

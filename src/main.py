@@ -31,16 +31,14 @@ class WhisperService:
         self.device_name = DEVICE_NAME
         self.model_name = MODEL_NAME
         self.timer_duration = TIMER_DURATION
-        self.audio_data = []
         
         # State
+        self.audio_data = []
         self.model = None
         self.is_recording = False
         self.currently_depressed = set()
         self.lock = threading.Lock()
         self.usage_timer = None
-        
-        # Components
         self.tray_icon = self.get_tray_icon()
         self.keyboard_controller = Controller()
         self.stream = None
@@ -153,14 +151,14 @@ class WhisperService:
             # Limit audio length to 60 seconds
             max_length = self.samplerate * 60  # 60 seconds at self.samplerate
             if len(audio) > max_length:
-                logger.warning(f"Audio length exceeds 30 seconds. Truncating...")
+                logger.warning(f"Audio length exceeds 60 seconds. Truncating...")
                 audio = audio[:max_length]
             
             logger.debug(f"Audio data after preprocessing: shape {audio.shape}, dtype {audio.dtype}")
             
             # Transcribe using Whisper model
             logger.info("Starting transcription...")
-            result = self.model.transcribe(audio, fp16=False)  # Ensure FP16 is disabled if using CPU
+            result = self.model.transcribe(audio)  # Ensure FP16 is disabled if using CPU
             text = result.get("text", "").strip()
             
             if text:
